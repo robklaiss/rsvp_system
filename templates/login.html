@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Wedding RSVP Login</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 400px; margin: 40px auto; padding: 20px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; }
+        input { width: 100%; padding: 8px; border: 1px solid #ddd; }
+        button { background: #3498db; color: white; border: none; padding: 10px 20px; cursor: pointer; }
+        .error { color: #e74c3c; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Wedding Details Access</h1>
+    <form method="POST" action="/login">
+        <div class="form-group">
+            <label>Phone Number:</label>
+            <input type="tel" name="phone" placeholder="+1234567890" required>
+        </div>
+        <div class="form-group">
+            <label>Access Code:</label>
+            <input type="text" name="access_code" placeholder="6-digit code" required>
+        </div>
+        <button type="submit">View Details</button>
+        {% if error %}
+        <div class="error">{{ error }}</div>
+        {% endif %}
+    </form>
+</body>
+</html>

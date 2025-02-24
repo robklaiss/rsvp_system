@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h2 class="mb-4">Estado de Invitación</h2>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">{{ guest.firstname }} {{ guest.lastname }}</h5>
+            <p class="card-text">
+                <strong>Teléfono:</strong> {{ guest.phone }}<br>
+                <strong>Email:</strong> {{ guest.email }}<br>
+                <strong>Estado:</strong> 
+                {% if guest.approved %}
+                    <span class="text-success">Aprobado</span>
+                {% else %}
+                    <span class="text-warning">Pendiente de Aprobación</span>
+                {% endif %}
+            </p>
+            {% if guest.approved %}
+            <div class="alert alert-success mt-3">
+                <h6>¡Bienvenido a nuestra celebración!</h6>
+                <p>Estamos muy felices de que formes parte de nuestro día especial.</p>
+                <p>Guarda esta información para futuras referencias:</p>
+                <ul>
+                    <li>Código de Acceso: <strong>{{ guest.access_code }}</strong></li>
+                </ul>
+            </div>
+            {% else %}
+            <div class="alert alert-info mt-3">
+                <p>Tu registro está siendo revisado. Te notificaremos por WhatsApp y email cuando sea aprobado.</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="mt-3">
+        <a href="/status" class="btn btn-secondary">Volver</a>
+    </div>
+</div>
+{% endblock %}

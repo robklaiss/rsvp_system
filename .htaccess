@@ -1,0 +1,12 @@
+RewriteEngine On
+RewriteCond %{HTTP_HOST} ^yourdomain\.com$ [NC]
+RewriteRule ^(.*)$ http://www.yourdomain.com/$1 [R=301,L]
+
+WSGIDaemonProcess rsvp_app threads=5 python-home=/home/username/virtualenv/rsvp_system/3.9
+WSGIScriptAlias / /home/username/public_html/rsvp_system/wsgi.py
+
+<Directory /home/username/public_html/rsvp_system>
+    WSGIProcessGroup rsvp_app
+    WSGIApplicationGroup %{GLOBAL}
+    Require all granted
+</Directory>

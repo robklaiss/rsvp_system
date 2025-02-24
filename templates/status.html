@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h2 class="mb-4">Verificar Estado de Invitación</h2>
+    <div class="card">
+        <div class="card-body">
+            <form method="POST">
+                <div class="mb-3">
+                    <label class="form-label">Número de Teléfono</label>
+                    <input type="tel" name="phone" required class="form-control" 
+                           placeholder="+595972123456">
+                    <small class="text-muted">Ingrese el número con código de país (ejemplo: +595972123456)</small>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Código de Acceso</label>
+                    <input type="text" name="access_code" required class="form-control" 
+                           placeholder="123456">
+                    <small class="text-muted">El código de 6 dígitos que recibió por WhatsApp o SMS</small>
+                </div>
+                <button type="submit" class="btn btn-primary">Verificar Estado</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

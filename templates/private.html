@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Wedding Details</title>
+    <style>
+        body { font-family: 'Arial', sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .details-section { margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 20px; }
+        .map-container { height: 400px; width: 100%; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    {% if guest %}
+    <h1>Welcome, {{ guest.name }}! ❤️</h1>
+    
+    <div class="details-section">
+        <h2>📅 Date & Time</h2>
+        <p>Saturday, March 15th 2025<br>
+        4:00 PM (GMT-3)</p>
+    </div>
+
+    <div class="details-section">
+        <h2>📍 Venue Location</h2>
+        <div class="map-container">
+            <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3618.434184979083!2d-67.12345678901234!3d-34.98765432109876!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzTCsDU5JzE1LjYiUyA2N8KwMDcnNDEuNiJX!5e0!3m2!1sen!2sar!4v1680123456789!5m2!1sen!2sar" 
+                width="100%" 
+                height="100%" 
+                style="border:0;" 
+                allowfullscreen="" 
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+        <p>Grand Paradise Resort<br>
+        Costa Azul Beach, Argentina</p>
+    </div>
+
+    <div class="details-section">
+        <h2>💌 From the Couple</h2>
+        <p>Dear {{ guest.name.split(' ')[0] }},<br><br>
+        We're thrilled to share our special day with you!<br>
+        Please arrive by 3:30 PM for pre-ceremony refreshments.<br><br>
+        With love,<br>
+        Maria & Juan</p>
+    </div>
+    {% endif %}
+</body>
+</html>
