@@ -2,21 +2,10 @@
 {% block content %}
 <div class="container mt-5">
     <div class="card shadow-sm">
-        <div class="card-header bg-primary text-white">
+        <div class="card-header" style="background-color: #2c3e50; color: white;">
             <h4 class="mb-0">Registro para {{ couple_names }}</h4>
         </div>
         <div class="card-body">
-            {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    {% for category, message in messages %}
-                    <div class="alert alert-{{ category }} alert-dismissible fade show">
-                        {{ message }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                    </div>
-                    {% endfor %}
-                {% endif %}
-            {% endwith %}
-
             <form method="POST">
                 <div class="mb-3">
                     <label class="form-label">Nombre</label>
@@ -44,7 +33,7 @@
                     <input type="email" name="email" class="form-control" required>
                 </div>
 
-                <button type="submit" class="btn btn-primary w-100">
+                <button type="submit" class="btn btn-primary w-100" style="background-color: #3498db; border-color: #3498db;">
                     Enviar Registro
                 </button>
             </form>

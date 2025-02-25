@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RSVP System</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --spacing: 8px;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: var(--spacing);
+            color: var(--primary-color);
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: calc(var(--spacing) * 2);
+        }
+        
+        .form-group {
+            margin-bottom: calc(var(--spacing) * 2);
+        }
+        
+        label {
+            display: block;
+            margin-bottom: var(--spacing);
+        }
+        
+        input {
+            width: 100%;
+            padding: var(--spacing);
+            border: 1px solid var(--primary-color);
+            border-radius: 4px;
+        }
+        
+        button {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: var(--spacing) calc(var(--spacing) * 2);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            opacity: 0.9;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: var(--spacing);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>RSVP Registration</h1>
+        <form id="registrationForm">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="eventId">Event ID:</label>
+                <input type="text" id="eventId" name="eventId" required>
+            </div>
+            <button type="submit">Register</button>
+        </form>
+        <div id="message"></div>
+    </div>
+
+    <script>
+        document.getElementById('registrationForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                eventId: document.getElementById('eventId').value
+            };
+
+            try {
+                const response = await fetch('/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+                document.getElementById('message').innerHTML = `
+                    <p style="color: ${result.status === 'success' ? 'green' : 'red'}">
+                        ${result.message}
+                    </p>
+                `;
+            } catch (error) {
+                document.getElementById('message').innerHTML = `
+                    <p style="color: red">Error: ${error.message}</p>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>THIS IS THE NEW TEMPLATE</h1>
+<style>
+    .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+    .header { 
+        display: flex; 
+        justify-content: space-between; 
+        align-items: center;
+        margin-bottom: 30px;
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+    }
+    .header h1 { margin: 0; }
+    .stats {
+        background: #fff;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        background: white;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    th, td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+    th {
+        background-color: #2c3e50;
+        color: white;
+    }
+    tr:hover { background-color: #f5f5f5; }
+    .approved { color: #27ae60; }
+    .pending { color: #e67e22; }
+    .btn {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: 500;
+        margin: 0 4px;
+        transition: background-color 0.3s;
+    }
+    .btn-approve {
+        background-color: #27ae60;
+        color: white;
+    }
+    .btn-approve:disabled {
+        background-color: #95a5a6;
+        cursor: not-allowed;
+    }
+    .btn-reject {
+        background-color: #e74c3c;
+        color: white;
+    }
+    .btn-delete {
+        background-color: #c0392b;
+        color: white;
+    }
+    .btn-logout {
+        background-color: #34495e;
+        color: white;
+    }
+</style>
+
+<div class="container">
+    <div class="header">
+        <h1>Panel de Administración - {{ couple_names }}</h1>
+        <a href="{{ url_for('logout') }}" class="btn btn-logout">Cerrar Sesión</a>
+    </div>
+
+    <div class="stats">
+        {% set approved = guests|selectattr('approved')|list|length %}
+        {% set pending = guests|length - approved %}
+        <strong>Total de invitados:</strong> {{ guests|length }} 
+        ({{ approved }} aprobados, {{ pending }} pendientes)
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Teléfono</th>
+                <th>Email</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for guest in guests %}
+            <tr>
+                <td>{{ guest.firstname }}</td>
+                <td>{{ guest.lastname }}</td>
+                <td>{{ guest.phone }}</td>
+                <td>{{ guest.email }}</td>
+                <td class="{{ 'approved' if guest.approved else 'pending' }}">
+                    {{ 'Aprobado' if guest.approved else 'Pendiente' }}
+                </td>
+                <td>
+                    <button class="btn btn-approve" onclick="approveGuest({{ guest.id }})"
+                            {% if guest.approved %}disabled{% endif %}>
+                        Aprobar
+                    </button>
+                    <button class="btn btn-reject" onclick="rejectGuest({{ guest.id }})">
+                        Rechazar
+                    </button>
+                    <button class="btn btn-delete" onclick="deleteGuest({{ guest.id }})">
+                        Eliminar
+                    </button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+async function approveGuest(guestId) {
+    try {
+        const response = await fetch(`/admin/approve/${guestId}`, {
+            method: 'POST'
+        });
+        const result = await response.json();
+        if (response.ok) {
+            alert(result.message);
+            location.reload();
+        } else {
+            alert('Error: ' + result.message);
+        }
+    } catch (error) {
+        alert('Error al aprobar el invitado');
+    }
+}
+
+async function rejectGuest(guestId) {
+    if (confirm('¿Está seguro que desea rechazar a este invitado?')) {
+        try {
+            const response = await fetch(`/admin/reject/${guestId}`, {
+                method: 'POST'
+            });
+            const result = await response.json();
+            if (response.ok) {
+                alert(result.message);
+                location.reload();
+            } else {
+                alert('Error: ' + result.message);
+            }
+        } catch (error) {
+            alert('Error al rechazar el invitado');
+        }
+    }
+}
+
+async function deleteGuest(guestId) {
+    if (confirm('¿Está seguro que desea eliminar a este invitado? Esta acción no se puede deshacer.')) {
+        try {
+            const response = await fetch(`/admin/delete/${guestId}`, {
+                method: 'POST'
+            });
+            const result = await response.json();
+            if (response.ok) {
+                alert(result.message);
+                location.reload();
+            } else {
+                alert('Error: ' + result.message);
+            }
+        } catch (error) {
+            alert('Error al eliminar el invitado');
+        }
+    }
+}
+</script>
+{% endblock %}
