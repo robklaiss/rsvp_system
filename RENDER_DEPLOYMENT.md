@@ -37,29 +37,30 @@ To set these:
 
 ### 4. Database Setup
 
-The PostgreSQL database will be automatically created based on the `render.yaml` configuration. After deployment:
+The PostgreSQL database will be automatically created based on the `render.yaml` configuration. The database migration will run automatically as part of the deployment process through the `preDeployCommand` in render.yaml.
+
+If you need to run migrations manually:
 
 1. Go to your web service in the Render dashboard
 2. Click on the "Shell" tab
 3. Run the database migration script:
    ```
-   python migrate_db.py
+   python render_migrate.py
    ```
 
 ### 5. Verify Deployment
 
 1. Once deployment is complete, click on the URL provided by Render to access your application
-2. Verify that both the Flask and FastAPI components are working:
-   - Main RSVP system (Flask): The root URL
-   - Wedding admin dashboard (FastAPI): `/dashboard` endpoint
+2. Verify that the Flask application is working by accessing the root URL
+3. Test key functionality such as guest management and the RSVP system
 
 ## Understanding Your Deployment
 
 Your RSVP system on Render.com consists of:
 
-1. **Combined Web Service**: Runs both your Flask and FastAPI applications on a single service
-   - Flask app handles the RSVP system, guest management, and notifications
-   - FastAPI app manages wedding details and includes the dashboard feature
+1. **Flask Web Service**: Runs your Flask application
+   - Handles the RSVP system, guest management, and notifications
+   - Provides all the core functionality needed for the wedding RSVP process
 
 2. **PostgreSQL Database**: Stores all your wedding, guest, and RSVP data
 
@@ -68,6 +69,7 @@ Your RSVP system on Render.com consists of:
 - **Primary color**: The system uses #998103 as the primary color (changed from the original #2c3e50)
 - **Email configuration**: Set to use albea.websitewelcome.com on port 465
 - **Notification system**: Uses both SMS (via Twilio) and email for guest communications
+- **Couple names**: Dynamic couple names are used in email templates
 
 ## Troubleshooting
 
