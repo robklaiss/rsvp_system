@@ -1,17 +1,15 @@
 services:
-  # Combined application (Flask + FastAPI)
+  # Flask RSVP application
   - type: web
     name: rsvp-system
     env: python
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn wsgi_combined:app
+    startCommand: gunicorn app:app
     plan: free
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.0
       - key: SECRET_KEY
-        generateValue: true
-      - key: JWT_SECRET_KEY
         generateValue: true
       - key: FLASK_ENV
         value: production
@@ -35,5 +33,12 @@ services:
         value: admin
       - key: SUPER_ADMIN_PASS
         sync: false
-      - key: FASTAPI_PORT
-        value: 8000
+    databases:
+      - name: rsvp-db
+        plan: free
+    buildFilter:
+      paths:
+        - app/**
+        - requirements.txt
+        - app.py
+    preDeployCommand: python render_migrate.py
