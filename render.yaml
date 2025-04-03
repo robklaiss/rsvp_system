@@ -39,12 +39,8 @@ services:
         value: 8000
 
   # PostgreSQL Database
-  - type: pserv
+  - type: postgres
     name: rsvp-db
     plan: free
-    env: postgres
-    version: "14"
-    disk:
-      name: data
-      mountPath: /var/lib/postgresql/data
-      sizeGB: 1
+    ipAllowList: []
+    region: oregon
