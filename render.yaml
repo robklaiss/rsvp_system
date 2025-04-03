@@ -4,7 +4,7 @@ services:
     name: rsvp-system
     env: python
     buildCommand: pip install -r requirements.txt
-    startCommand: bash ./bin/render-start.sh
+    startCommand: python render_start.py
     plan: free
     envVars:
       - key: PYTHON_VERSION
