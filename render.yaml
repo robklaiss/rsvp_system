@@ -3,8 +3,8 @@ services:
   - type: web
     name: rsvp-system
     env: python
-    buildCommand: pip install -r requirements.txt && pip install gunicorn
-    startCommand: gunicorn app:app
+    buildCommand: pip install -r requirements.txt
+    startCommand: bash ./bin/render-start.sh
     plan: free
     envVars:
       - key: PYTHON_VERSION
