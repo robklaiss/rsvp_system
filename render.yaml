@@ -1,0 +1,50 @@
+services:
+  # Combined application (Flask + FastAPI)
+  - type: web
+    name: rsvp-system
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn wsgi_combined:app --bind 0.0.0.0:$PORT
+    plan: free
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: SECRET_KEY
+        generateValue: true
+      - key: JWT_SECRET_KEY
+        generateValue: true
+      - key: FLASK_ENV
+        value: production
+      - key: FLASK_APP
+        value: app.py
+      - key: MAIL_SERVER
+        value: albea.websitewelcome.com
+      - key: MAIL_PORT
+        value: 465
+      - key: MAIL_USERNAME
+        value: rsvp@boda.com.py
+      - key: MAIL_PASSWORD
+        sync: false
+      - key: TWILIO_ACCOUNT_SID
+        sync: false
+      - key: TWILIO_AUTH_TOKEN
+        sync: false
+      - key: TWILIO_PHONE_NUMBER
+        sync: false
+      - key: SUPER_ADMIN_USER
+        value: admin
+      - key: SUPER_ADMIN_PASS
+        sync: false
+      - key: FASTAPI_PORT
+        value: 8000
+
+  # PostgreSQL Database
+  - type: pserv
+    name: rsvp-db
+    plan: free
+    env: postgres
+    version: "14"
+    disk:
+      name: data
+      mountPath: /var/lib/postgresql/data
+      sizeGB: 1
