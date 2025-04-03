@@ -37,10 +37,3 @@ services:
         sync: false
       - key: FASTAPI_PORT
         value: 8000
-
-  # PostgreSQL Database
-  - type: postgres
-    name: rsvp-db
-    plan: free
-    ipAllowList: []
-    region: oregon
