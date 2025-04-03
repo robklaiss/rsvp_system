@@ -33,12 +33,12 @@ services:
         value: admin
       - key: SUPER_ADMIN_PASS
         sync: false
-    databases:
-      - name: rsvp-db
-        plan: free
     buildFilter:
       paths:
         - app/**
         - requirements.txt
         - app.py
+    database:
+      - name: rsvp-db
+        plan: free
     preDeployCommand: python render_migrate.py
