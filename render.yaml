@@ -3,7 +3,7 @@ services:
   - type: web
     name: rsvp-system
     env: python
-    buildCommand: pip install -r requirements.txt
+    buildCommand: pip install -r requirements.txt && pip install gunicorn
     startCommand: gunicorn app:app
     plan: free
     envVars:
